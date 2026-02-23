@@ -3,43 +3,458 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome</title>
+  <title>Codex 5.3 in Cursor</title>
   <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --ink: #132238;
+      --muted: #56657a;
+      --line: #dbe4ef;
+      --brand: #0f5fd6;
+      --brand-2: #0b9d95;
+      --shadow: 0 18px 44px rgba(17, 36, 68, 0.12);
+      --radius: 18px;
+    }
+
     * {
       box-sizing: border-box;
     }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.6;
-      max-width: 640px;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(15, 95, 214, 0.12), transparent 42%),
+        radial-gradient(circle at 90% 5%, rgba(11, 157, 149, 0.1), transparent 38%),
+        linear-gradient(180deg, #f8fbff 0%, #eef3f9 100%);
+      line-height: 1.55;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 2rem));
       margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0d2038 0%, #14355f 45%, #0e5163 100%);
+      color: #f4f8ff;
+      border-radius: 22px;
       padding: 2rem;
-      color: #333;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
-    header {
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1rem;
-      margin-bottom: 1.5rem;
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.24), rgba(255,255,255,0));
+      pointer-events: none;
     }
-    h1 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: #111;
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 0.9rem 0 0.6rem;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(244, 248, 255, 0.9);
+      font-size: 1rem;
+    }
+
+    .hero-grid {
+      margin-top: 1.4rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 0.9rem;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .stat span {
+      color: rgba(244, 248, 255, 0.85);
+      font-size: 0.9rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 24px rgba(17, 36, 68, 0.05);
+    }
+
+    .card-content {
+      padding: 1.25rem;
+    }
+
+    .section-title {
+      margin: 0 0 0.85rem;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+    }
+
+    .muted {
+      color: var(--muted);
       margin: 0;
     }
-    .intro {
-      color: #555;
+
+    .workflow {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 0.9rem;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      align-items: start;
+      padding: 0.9rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .step-index {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step h3 {
+      margin: 0 0 0.2rem;
+      font-size: 0.98rem;
+    }
+
+    .step p {
       margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .badge {
+      font-size: 0.78rem;
+      color: var(--brand);
+      background: rgba(15, 95, 214, 0.09);
+      border: 1px solid rgba(15, 95, 214, 0.16);
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .checklist li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.6rem;
+      align-items: start;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .checklist li::before {
+      content: "+";
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(11, 157, 149, 0.12);
+      color: #0b7f79;
+      font-weight: 700;
+      font-size: 0.75rem;
+      margin-top: 0.08rem;
+    }
+
+    .code-window {
+      margin-top: 1rem;
+      border-radius: 14px;
+      border: 1px solid #203859;
+      background: #0d1726;
+      overflow: hidden;
+    }
+
+    .code-bar {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #28c840; }
+
+    pre {
+      margin: 0;
+      padding: 1rem;
+      color: #d8e7ff;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    .bottom-grid {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .mini-card {
+      padding: 1rem;
+    }
+
+    .mini-card h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1rem;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer {
+      margin-top: 1rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.65);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .bottom-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome</h1>
-  </header>
-  <p class="intro">
-    This is a simple web page with a header, a short intro, and light styling.
-    Edit the content and CSS to make it your own.
-  </p>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">AI Coding Workflow | Cursor + Codex 5.3</div>
+      <h1 id="page-title">Build Faster With Codex 5.3 Inside Cursor</h1>
+      <p>
+        Codex 5.3 in Cursor acts as an engineering assistant embedded in your editor:
+        it reads project context, proposes changes, writes code, runs terminal commands,
+        and helps you review results before you accept them.
+      </p>
+      <div class="hero-grid" aria-label="Key benefits">
+        <div class="stat">
+          <strong>Context-Aware</strong>
+          <span>Works from your open files, repo structure, and prompts.</span>
+        </div>
+        <div class="stat">
+          <strong>Action-Oriented</strong>
+          <span>Can edit code, suggest patches, and help validate outcomes.</span>
+        </div>
+        <div class="stat">
+          <strong>Human-Controlled</strong>
+          <span>You stay in the loop for approvals, review, and final decisions.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout" aria-label="Codex workflow and best practices">
+      <article class="card">
+        <div class="card-content">
+          <h2 class="section-title">How Codex 5.3 Works in Cursor</h2>
+          <p class="muted">
+            A practical workflow for using Codex effectively in a real project.
+          </p>
+          <div class="workflow">
+            <div class="step">
+              <div class="step-index">1</div>
+              <div>
+                <h3>Describe the task clearly</h3>
+                <p>
+                  Start with a precise prompt: what file to change, what behavior you want,
+                  and what constraints matter (design, performance, tests, style).
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-index">2</div>
+              <div>
+                <h3>Codex reads local context</h3>
+                <p>
+                  Cursor provides project context such as files, code structure, and your current
+                  selection so Codex can reason about the existing implementation.
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-index">3</div>
+              <div>
+                <h3>Codex proposes and applies edits</h3>
+                <p>
+                  It can generate code, rewrite sections, and produce focused changes instead of
+                  replacing everything unnecessarily.
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-index">4</div>
+              <div>
+                <h3>Validate with terminal + review</h3>
+                <p>
+                  Run tests, inspect diffs, and verify behavior. Codex helps with commands and
+                  debugging, but you confirm the final result before shipping.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-window" aria-label="Example workflow snippet">
+            <div class="code-bar">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <pre><code>// Example prompt in Cursor
+"Rewrite index.html with a professional layout.
+Add a section explaining how Codex 5.3 works in Cursor.
+Keep it responsive and easy to edit."</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card" aria-labelledby="best-practices-title">
+        <div class="panel-header">
+          <h2 id="best-practices-title">Best Practices</h2>
+          <span class="badge">Operator Notes</span>
+        </div>
+        <div class="card-content">
+          <ul class="checklist">
+            <li>Be specific about the target files, expected output, and UI style.</li>
+            <li>Ask for incremental changes when the codebase is large or sensitive.</li>
+            <li>Request explanations for non-obvious logic before accepting a patch.</li>
+            <li>Run tests and manual checks after any automated edits.</li>
+            <li>Use version control so you can review and roll back safely.</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <section class="bottom-grid" aria-label="What Codex helps with">
+      <article class="card mini-card">
+        <h3>Code Generation</h3>
+        <p>
+          Create components, refactor repeated logic, and scaffold new pages while keeping your
+          existing project structure intact.
+        </p>
+      </article>
+      <article class="card mini-card">
+        <h3>Debugging Support</h3>
+        <p>
+          Analyze errors, inspect logs, and propose fixes based on the code currently in your workspace.
+        </p>
+      </article>
+      <article class="card mini-card">
+        <h3>Review Acceleration</h3>
+        <p>
+          Summarize diffs, explain tradeoffs, and help you validate changes before commit or deploy.
+        </p>
+      </article>
+    </section>
+
+    <div class="footer">
+      Codex 5.3 in Cursor is most effective when used as a collaborative engineering tool:
+      provide context, review changes carefully, and keep the human decision-maker in charge.
+    </div>
+  </main>
 </body>
 </html>
